@@ -1,0 +1,10 @@
+{ 
+    "id": "/subscriptions/e6e9d15b736d4d6e95099c35cd42b795/resourceGroups/54EB125E/providers/ResourceProviderTestHost/TestResourceType/resource1", 
+    "name": "resource1", 
+    "type": "ResourceProviderTestHost/TestResourceType", 
+    "properties": { 
+      "propertyDeployment": "myDeployment", 
+      "propertyString": "secureString", 
+      "propertyInt": 42 
+    } 
+}
