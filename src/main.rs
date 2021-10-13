@@ -29,7 +29,7 @@ pub fn create_begin() {
     match get_payload::<ResourceProperties>() {
         Ok(r) => {
             // Create resource here
-            exit_success_with_resource(r);
+            exit_success_with_resource(r.resource);
         }
         Err(e) => exit_error(e, "Resource Creation Error", 500),
     }
@@ -62,7 +62,7 @@ pub fn read_begin() {
     match get_payload::<ResourceProperties>() {
         Ok(r) => {
             // Read resource here
-            exit_success_with_resource(r);
+            exit_success_with_resource(r.resource);
         }
         Err(e) => exit_error(e, "Resource Creation Error", 500),
     }
@@ -73,7 +73,7 @@ pub fn patch_validate() {
     match get_payload::<ResourceProperties>() {
         Ok(r) => {
             // Validate Patch here
-            exit_success_with_resource(r);
+            exit_success_with_resource(r.resource);
         }
         Err(e) => exit_error(e, "Resource Patch Validate Error", 200),
     }
@@ -86,10 +86,10 @@ pub fn patch_begin() {
             let mut headers = HashMap::new();
             headers.insert(
                 "Content-Type".to_string(),
-                " application/merge-patch+json".to_string(),
+                vec!["application/merge-patch+json".to_string()],
             );
             // Patch here
-            exit_success_with_resource_and_headers(r, headers);
+            exit_success_with_resource_and_headers(r.resource, headers);
         }
         Err(e) => exit_error(e, "Resource Patch Begin Error", 500),
     }
@@ -134,7 +134,7 @@ pub fn delete_begin() {
     match get_payload::<ResourceProperties>() {
         Ok(r) => {
             // Create resource here
-            exit_success_with_resource(r);
+            exit_success_with_resource(r.resource);
         }
         Err(e) => exit_error(e, "Resource Deletion Error", 500),
     }
