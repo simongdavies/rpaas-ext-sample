@@ -1,17 +1,8 @@
-use std::io::{Read, stdin};
-use serde::{Serialize, Deserialize};
+use std::collections::HashMap;
 
-fn main() {}    
-
-#[derive(Serialize, Deserialize)]
-struct Resource {
-    id: String,
-    name: String,
-    #[serde(rename = "type")]
-    resource_type: String,
-    properties: ResourceProperties,
-}
-
+use rpaas::*;
+use serde::{Deserialize, Serialize};
+fn main() {}
 #[derive(Serialize, Deserialize)]
 struct ResourceProperties {
     #[serde(rename = "propertyDeployment")]
@@ -22,33 +13,140 @@ struct ResourceProperties {
     property_int: u32,
 }
 
-
-#[derive(Serialize, Deserialize)]
-struct Response{
-    status: String,
-    error: Option<Error>,
-}
-#[derive(Serialize, Deserialize)]
-struct Error{
-    code: String,
-    message: String,
-}
-
-#[export_name = "validateresource"]
-pub fn validate() {
-    let mut data = String::new();
-    let mut stdin = stdin();
-    stdin.read_to_string(&mut data).unwrap();
-    let _resource: Resource = serde_json::from_str(&data).unwrap();
-    let response = Response{ 
-        status: String::from("Succeeded"),
-        error: None,
-    };
-    write_response(response);
-    std::process::exit(0);
+#[export_name = "ResourceCreationValidate"]
+pub fn create_validate() {
+    match get_payload::<ResourceProperties>() {
+        Ok(_) => {
+            // Validate resource here
+            exit_success_with_status();
+        }
+        Err(e) => exit_error(e, "Resource Create Validation Error", 200),
+    }
 }
 
-fn write_response(response: Response) {
-    let response_json = serde_json::to_string(&response).unwrap();
-    println!("{}", response_json);
+#[export_name = "ResourceCreationBegin"]
+pub fn create_begin() {
+    match get_payload::<ResourceProperties>() {
+        Ok(r) => {
+            // Create resource here
+            exit_success_with_resource(r);
+        }
+        Err(e) => exit_error(e, "Resource Creation Error", 500),
+    }
+}
+
+#[export_name = "ResourceCreationCompleted"]
+pub fn create_complete() {
+    match get_payload::<ResourceProperties>() {
+        Ok(_) => {
+            // Create complete actions here
+            exit_success_no_payload();
+        }
+        Err(e) => exit_error(e, "Resource Creation Complete Error", 500),
+    }
+}
+
+#[export_name = "ResourceReadValidate"]
+pub fn read_validate() {
+    match get_payload::<ResourceProperties>() {
+        Ok(_) => {
+            // Validate read here
+            exit_success_with_status();
+        }
+        Err(e) => exit_error(e, "Resource Read Validate Error", 200),
+    }
+}
+
+#[export_name = "ResourceReadBegin"]
+pub fn read_begin() {
+    match get_payload::<ResourceProperties>() {
+        Ok(r) => {
+            // Read resource here
+            exit_success_with_resource(r);
+        }
+        Err(e) => exit_error(e, "Resource Creation Error", 500),
+    }
+}
+
+#[export_name = "ResourcePatchValidate"]
+pub fn patch_validate() {
+    match get_payload::<ResourceProperties>() {
+        Ok(r) => {
+            // Validate Patch here
+            exit_success_with_resource(r);
+        }
+        Err(e) => exit_error(e, "Resource Patch Validate Error", 200),
+    }
+}
+
+#[export_name = "ResourcePatchBegin"]
+pub fn patch_begin() {
+    match get_payload::<ResourceProperties>() {
+        Ok(r) => {
+            let mut headers = HashMap::new();
+            headers.insert(
+                "Content-Type".to_string(),
+                " application/merge-patch+json".to_string(),
+            );
+            // Patch here
+            exit_success_with_resource_and_headers(r, headers);
+        }
+        Err(e) => exit_error(e, "Resource Patch Begin Error", 500),
+    }
+}
+
+#[export_name = "ResourcePatchCompleted"]
+pub fn patch_complete() {
+    match get_payload::<ResourceProperties>() {
+        Ok(_) => {
+            // Patch complete actions here
+            exit_success_no_payload();
+        }
+        Err(e) => exit_error(e, "Resource Patch Complete Error", 500),
+    }
+}
+
+#[export_name = "ResourcePostAction"]
+pub fn action() {
+    match get_payload::<ResourceProperties>() {
+        Ok(_) => {
+            // Patch complete actions here
+            exit_success_no_payload();
+        }
+        Err(e) => exit_error(e, "Resource Action Error", 500),
+    }
+}
+
+
+#[export_name = "ResourceDeletionValidate"]
+pub fn delete_validate() {
+    match get_payload::<ResourceProperties>() {
+        Ok(_) => {
+            // Validate resource here
+            exit_success_with_status();
+        }
+        Err(e) => exit_error(e, "Resource Delete Validation Error", 200),
+    }
+}
+
+#[export_name = "ResourceDeletionBegin"]
+pub fn delete_begin() {
+    match get_payload::<ResourceProperties>() {
+        Ok(r) => {
+            // Create resource here
+            exit_success_with_resource(r);
+        }
+        Err(e) => exit_error(e, "Resource Deletion Error", 500),
+    }
+}
+
+#[export_name = "ResourceDeletionCompleted"]
+pub fn delete_complete() {
+    match get_payload::<ResourceProperties>() {
+        Ok(_) => {
+            // Create complete actions here
+            exit_success_no_payload();
+        }
+        Err(e) => exit_error(e, "Resource Delete Complete Error", 500),
+    }
 }
