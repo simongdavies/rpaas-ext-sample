@@ -1,8 +1,8 @@
-use std::collections::HashMap;
-
 use rpaas::*;
 use serde::{Deserialize, Serialize};
-fn main() {}
+use std::collections::HashMap;
+
+pub fn main() {}
 #[derive(Serialize, Deserialize)]
 struct ResourceProperties {
     #[serde(rename = "propertyDeployment")]
@@ -15,8 +15,13 @@ struct ResourceProperties {
 
 #[export_name = "ResourceCreationValidate"]
 pub fn create_validate() {
+    trace_info("ResourceCreationValidate Called");
     match get_payload::<ResourceProperties>() {
-        Ok(_) => {
+        Ok(r) => {
+            trace_info(&format!(
+                "ResourceCreationValidate Request Parsed for {}",
+                r.resource_id
+            ));
             // Validate resource here
             exit_success_with_status();
         }
@@ -26,8 +31,13 @@ pub fn create_validate() {
 
 #[export_name = "ResourceCreationBegin"]
 pub fn create_begin() {
+    trace_info("ResourceCreationBegin Called");
     match get_payload::<ResourceProperties>() {
         Ok(r) => {
+            trace_info(&format!(
+                "ResourceCreationBegin Request Parsed for {}",
+                r.resource_id
+            ));
             // Create resource here
             exit_success_with_resource(r.resource);
         }
@@ -37,8 +47,13 @@ pub fn create_begin() {
 
 #[export_name = "ResourceCreationCompleted"]
 pub fn create_complete() {
+    trace_info("ResourceCreationCompleted Called");
     match get_payload::<ResourceProperties>() {
-        Ok(_) => {
+        Ok(r) => {
+            trace_info(&format!(
+                "ResourceCreationCompleted Request Parsed for {}",
+                r.resource_id
+            ));
             // Create complete actions here
             exit_success_no_payload();
         }
@@ -48,8 +63,13 @@ pub fn create_complete() {
 
 #[export_name = "ResourceReadValidate"]
 pub fn read_validate() {
+    trace_info("ResourceReadValidate Called");
     match get_payload::<ResourceProperties>() {
-        Ok(_) => {
+        Ok(r) => {
+            trace_info(&format!(
+                "ResourceReadValidate Request Parsed for {}",
+                r.resource_id
+            ));
             // Validate read here
             exit_success_with_status();
         }
@@ -59,8 +79,13 @@ pub fn read_validate() {
 
 #[export_name = "ResourceReadBegin"]
 pub fn read_begin() {
+    trace_info("ResourceReadBegin Called");
     match get_payload::<ResourceProperties>() {
         Ok(r) => {
+            trace_info(&format!(
+                "ResourceReadBegin Request Parsed for {}",
+                r.resource_id
+            ));
             // Read resource here
             exit_success_with_resource(r.resource);
         }
@@ -70,8 +95,13 @@ pub fn read_begin() {
 
 #[export_name = "ResourcePatchValidate"]
 pub fn patch_validate() {
+    trace_info("ResourcePatchValidate Called");
     match get_payload::<ResourceProperties>() {
         Ok(r) => {
+            trace_info(&format!(
+                "ResourcePatchValidate Request Parsed for {}",
+                r.resource_id
+            ));
             // Validate Patch here
             exit_success_with_resource(r.resource);
         }
@@ -81,8 +111,13 @@ pub fn patch_validate() {
 
 #[export_name = "ResourcePatchBegin"]
 pub fn patch_begin() {
+    trace_info("ResourcePatchBegin Called");
     match get_payload::<ResourceProperties>() {
         Ok(r) => {
+            trace_info(&format!(
+                "ResourcePatchBegin Request Parsed for {}",
+                r.resource_id
+            ));
             let mut headers = HashMap::new();
             headers.insert(
                 "Content-Type".to_string(),
@@ -97,8 +132,13 @@ pub fn patch_begin() {
 
 #[export_name = "ResourcePatchCompleted"]
 pub fn patch_complete() {
+    trace_info("ResourcePatchCompleted Called");
     match get_payload::<ResourceProperties>() {
-        Ok(_) => {
+        Ok(r) => {
+            trace_info(&format!(
+                "ResourcePatchCompleted Request Parsed for {}",
+                r.resource_id
+            ));
             // Patch complete actions here
             exit_success_no_payload();
         }
@@ -108,8 +148,13 @@ pub fn patch_complete() {
 
 #[export_name = "ResourcePostAction"]
 pub fn action() {
+    trace_info("ResourcePostAction Called");
     match get_payload::<ResourceProperties>() {
-        Ok(_) => {
+        Ok(r) => {
+            trace_info(&format!(
+                "ResourcePostAction Request Parsed for {}",
+                r.resource_id
+            ));
             // Patch complete actions here
             exit_success_no_payload();
         }
@@ -117,11 +162,15 @@ pub fn action() {
     }
 }
 
-
 #[export_name = "ResourceDeletionValidate"]
 pub fn delete_validate() {
+    trace_info("ResourceDeletionValidate Called");
     match get_payload::<ResourceProperties>() {
-        Ok(_) => {
+        Ok(r) => {
+            trace_info(&format!(
+                "ResourceDeletionValidate Request Parsed for {}",
+                r.resource_id
+            ));
             // Validate resource here
             exit_success_with_status();
         }
@@ -131,8 +180,13 @@ pub fn delete_validate() {
 
 #[export_name = "ResourceDeletionBegin"]
 pub fn delete_begin() {
+    trace_info("ResourceDeletionBegin Called");
     match get_payload::<ResourceProperties>() {
         Ok(r) => {
+            trace_info(&format!(
+                "ResourceDeletionBegin Request Parsed for {}",
+                r.resource_id
+            ));
             // Create resource here
             exit_success_with_resource(r.resource);
         }
@@ -142,8 +196,13 @@ pub fn delete_begin() {
 
 #[export_name = "ResourceDeletionCompleted"]
 pub fn delete_complete() {
+    trace_info("ResourceDeletionCompleted Called");
     match get_payload::<ResourceProperties>() {
-        Ok(_) => {
+        Ok(r) => {
+            trace_info(&format!(
+                "ResourceDeletionCompleted Request Parsed for {}",
+                r.resource_id
+            ));
             // Create complete actions here
             exit_success_no_payload();
         }

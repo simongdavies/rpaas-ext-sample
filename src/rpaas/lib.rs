@@ -1,6 +1,5 @@
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
-
 use std::collections::HashMap;
 use std::error::Error;
 use std::io::{stdin, Read};
@@ -62,9 +61,8 @@ pub fn exit_success_with_headers(headers: HashMap<String, Vec<String>>) {
         }),
         headers,
     };
-    let response_json = serde_json::to_string(&response).unwrap();
+    let response_json = serde_json::to_string_pretty(&response).unwrap();
     println!("{}", response_json);
-    std::process::exit(0);
 }
 
 pub fn exit_success_with_status() {
@@ -80,9 +78,8 @@ pub fn exit_success_with_resource_and_headers<T: Serialize>(
         payload: Some(resource),
         headers,
     };
-    let response_json = serde_json::to_string(&response).unwrap();
+    let response_json = serde_json::to_string_pretty(&response).unwrap();
     println!("{}", response_json);
-    std::process::exit(0);
 }
 
 pub fn exit_success_with_resource<T: Serialize>(resource: T) {
@@ -95,9 +92,8 @@ pub fn exit_success_no_payload() {
         payload: None,
         headers: HashMap::new(),
     };
-    let response_json = serde_json::to_string(&response).unwrap();
+    let response_json = serde_json::to_string_pretty(&response).unwrap();
     println!("{}", response_json);
-    std::process::exit(1);
 }
 
 pub fn exit_error_with_headers(
@@ -117,9 +113,14 @@ pub fn exit_error_with_headers(
         }),
         headers,
     };
-    let response_json = serde_json::to_string(&response).unwrap();
+    let response_json = serde_json::to_string_pretty(&response).unwrap();
     println!("{}", response_json);
-    std::process::exit(1);
+    trace_error(&format!(
+        "Error Code:{} Message: {}  Status: {}",
+        errorcode,
+        err.to_string(),
+        statuscode
+    ));
 }
 
 pub fn exit_error(err: Box<dyn Error>, errorcode: &str, statuscode: i32) {
@@ -128,4 +129,34 @@ pub fn exit_error(err: Box<dyn Error>, errorcode: &str, statuscode: i32) {
 
 pub fn get_payload<T: DeserializeOwned>() -> Result<Request<T>, Box<dyn Error>> {
     stdin_as_request::<Request<T>>()
+}
+
+pub fn trace_info(message: &str) {
+    #[link(wasm_import_module = "rpaas_host")]
+    extern "C" {
+        fn TraceInfo(ptr: *const u8, len: usize);
+    }
+    let ptr = message.as_ptr();
+    let len = message.len();
+    unsafe { TraceInfo(ptr, len) };
+}
+
+pub fn trace_error(message: &str) {
+    #[link(wasm_import_module = "rpaas_host")]
+    extern "C" {
+        fn TraceError(ptr: *const u8, len: usize);
+    }
+    let ptr = message.as_ptr();
+    let len = message.len();
+    unsafe { TraceError(ptr, len) };
+}
+
+pub fn trace_warning(message: &str) {
+    #[link(wasm_import_module = "rpaas_host")]
+    extern "C" {
+        fn TraceWarning(ptr: *const u8, len: usize);
+    }
+    let ptr = message.as_ptr();
+    let len = message.len();
+    unsafe { TraceWarning(ptr, len) };
 }
