@@ -4,14 +4,17 @@ use std::collections::HashMap;
 
 pub fn main() {}
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 struct ResourceProperties {
-    #[serde(rename = "propertyDeployment")]
-    property_deployment: String,
-    #[serde(rename = "propertyString")]
-    property_string: String,
-    #[serde(rename = "propertyInt")]
-    property_int: u32,
+    cluster: String,
+    datacenter: String,
+    nodes: u32,
+    service_account_name: String,
+    dummy_volume: DummyVolume,
 }
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct DummyVolume {}
 
 #[export_name = "ResourceCreationValidate"]
 pub fn create_validate() {
@@ -39,7 +42,7 @@ pub fn create_begin() {
                 r.resource_id
             ));
             // Create resource here
-            exit_success_with_resource(r.resource);
+            exit_success_with_resource(r.request);
         }
         Err(e) => exit_error(e, "Resource Creation Error", 500),
     }
@@ -87,7 +90,7 @@ pub fn read_begin() {
                 r.resource_id
             ));
             // Read resource here
-            exit_success_with_resource(r.resource);
+            exit_success_with_resource(r.request);
         }
         Err(e) => exit_error(e, "Resource Creation Error", 500),
     }
@@ -103,7 +106,7 @@ pub fn patch_validate() {
                 r.resource_id
             ));
             // Validate Patch here
-            exit_success_with_resource(r.resource);
+            exit_success_with_resource(r.request);
         }
         Err(e) => exit_error(e, "Resource Patch Validate Error", 200),
     }
@@ -124,7 +127,7 @@ pub fn patch_begin() {
                 vec!["application/merge-patch+json".to_string()],
             );
             // Patch here
-            exit_success_with_resource_and_headers(r.resource, headers);
+            exit_success_with_resource_and_headers(r.request, headers);
         }
         Err(e) => exit_error(e, "Resource Patch Begin Error", 500),
     }
@@ -188,7 +191,7 @@ pub fn delete_begin() {
                 r.resource_id
             ));
             // Create resource here
-            exit_success_with_resource(r.resource);
+            exit_success_with_resource(r.request);
         }
         Err(e) => exit_error(e, "Resource Deletion Error", 500),
     }

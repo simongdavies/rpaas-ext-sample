@@ -5,16 +5,15 @@ use std::error::Error;
 use std::io::{stdin, Read};
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Request<T> {
-    #[serde(rename = "ResourceId")]
     pub resource_id: String,
-    #[serde(rename = "Request")]
-    pub resource: Resource<T>,
-    #[serde(rename = "Headers")]
+    pub request: Resource<T>,
     pub headers: HashMap<String, Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Resource<T> {
     id: String,
     name: String,
@@ -31,8 +30,8 @@ struct ResponsePayload {
 }
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 struct Response<T: Serialize> {
-    #[serde(rename = "httpStatusCode")]
     http_status_code: i32,
     payload: Option<T>,
     headers: HashMap<String, Vec<String>>,

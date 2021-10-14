@@ -1,19 +1,44 @@
 {
-    "ResourceId": "/subscriptions/e6e9d15b736d4d6e95099c35cd42b795/resourceGroups/54EB125E/providers/ResourceProviderTestHost/TestResourceType/resource1",
-    "Request": {
-        "id": "/subscriptions/e6e9d15b736d4d6e95099c35cd42b795/resourceGroups/54EB125E/providers/ResourceProviderTestHost/TestResourceType/resource1",
-        "name": "resource1",
-        "type": "ResourceProviderTestHost/TestResourceType",
+    "resourceId": "/subscriptions/a5015e1c-867f-4533-8541-85cd470d0cfb/resourceGroups/existinghydration/providers/Microsoft.Cassandra/cassandradatacenters/nocltest",
+    "request": {
         "properties": {
-            "propertyDeployment": "myDeployment",
-            "propertyString": "secureString",
-            "propertyIn": 42
-        }
+            "cluster": "test-cluster",
+            "datacenter": "dc1",
+            "nodes": 3,
+            "serviceAccountName": "cassandra",
+            "DummyVolume": {}
+        },
+        "id": "/subscriptions/a5015e1c-867f-4533-8541-85cd470d0cfb/resourceGroups/existinghydration/providers/Microsoft.Cassandra/cassandradatacenters/nocltest",
+        "name": "nocltest",
+        "type": "Microsoft.Cassandra/cassandradatacenters"
     },
-    "Headers": {
-        "test": [
-            "value1",
-            "value2"
+    "headers": {
+        "Cache-Control": [
+            "no-cache"
+        ],
+        "Connection": [
+            "keep-alive"
+        ],
+        "Content-Type": [
+            "application/json"
+        ],
+        "Accept": [
+            "*/*"
+        ],
+        "Accept-Encoding": [
+            "gzip, deflate, br"
+        ],
+        "Host": [
+            "localhost:5001"
+        ],
+        "User-Agent": [
+            "PostmanRuntime/7.28.4"
+        ],
+        "Content-Length": [
+            "417"
+        ],
+        "Postman-Token": [
+            "6c3b9f69-90b7-455f-9d3d-48f35e739379"
         ]
     }
 }
