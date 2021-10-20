@@ -7,8 +7,23 @@ edition = "2018"
 [dependencies]
 serde = { version = "1.0.130", features = ["derive"] }
 serde_json = "1.0.68"
+azure_core = { git = "https://github.com/simongdavies/azure-sdk-for-rust", branch = "wasi-experimental-for-rpaas", features = ["enable_wasi_experimental_http"] }
+azure_mgmt_storage = { git = "https://github.com/simongdavies/azure-sdk-for-rust", branch = "wasi-experimental-for-rpaas", features=["package-2021-02"] }
+azure_identity = { git = "https://github.com/simongdavies/azure-sdk-for-rust", branch = "wasi-experimental-for-rpaas" , features = ["enable_rpaas_wasm_modules"]}
 
-[lib]
+# azure_core = { path = "../azure-sdk-for-rust/sdk/core", version = "0.1.0",  features = ["enable_wasi_experimental_http"] }
+# azure_mgmt_storage = { path = "../azure-sdk-for-rust/services/mgmt/storage", version = "0.1.0", features=["package-2021-02"] }
+# azure_identity = { path = "../azure-sdk-for-rust/sdk/identity", version = "0.1.0", features = ["enable_rpaas_wasm_modules"]}
 
-name = "rpaas"
-path = "src/rpaas/lib.rs"
+rpaas = { path= "./rpaas", version = "0.1.0"}
+chrono = "0.4"
+futures = "0.3"
+md5 = "0.7"
+thiserror = "1.0"
+
+
+[[bin]]
+name = "hellorpaas"
+
+[[bin]]
+name = "storage"

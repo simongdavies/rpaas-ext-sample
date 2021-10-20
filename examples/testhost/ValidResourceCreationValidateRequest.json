@@ -1,5 +1,5 @@
 {
-    "resourceId": "/subscriptions/a5015e1c-867f-4533-8541-85cd470d0cfb/resourceGroups/existinghydration/providers/Microsoft.Cassandra/cassandradatacenters/nocltest",
+    "resourceId": "/subscriptions/1e50fe9c-b28a-43d6-bbce-cbe72d4dc77b/resourceGroups/wasmhack/providers/Microsoft.Cassandra/cassandradatacenters/wasmhacktest11",
     "request": {
         "properties": {
             "cluster": "test-cluster",
@@ -8,9 +8,10 @@
             "serviceAccountName": "cassandra",
             "dummyVolume": {}
         },
-        "id": "/subscriptions/a5015e1c-867f-4533-8541-85cd470d0cfb/resourceGroups/existinghydration/providers/Microsoft.Cassandra/cassandradatacenters/nocltest",
+        "id": "/subscriptions/1e50fe9c-b28a-43d6-bbce-cbe72d4dc77b/resourceGroups/wasmhack/providers/Microsoft.Cassandra/cassandradatacenters/nocltest",
         "name": "nocltest",
-        "type": "Microsoft.Cassandra/cassandradatacenters"
+        "type": "Microsoft.Cassandra/cassandradatacenters",
+        "location": "NorthEurope"
     },
     "headers": {
         "Cache-Control": [
